@@ -12,4 +12,17 @@ CREATE TABLE IF NOT EXISTS recipes(
   FOREIGN KEY (creatorId) REFERENCES accounts(id)
 ) default charset utf8 COMMENT '';
 
-DROP TABLE `RECIPES`
+SELECT * FROM recipes;
+
+SELECT
+  rec.*,
+  a.*
+  FROM recipes rec
+  JOIN accounts a ON a.id = rec.creatorId;
+
+SELECT
+  rec.*,
+  a.*
+  FROM recipes rec
+  JOIN accounts a ON a.id = rec.creatorId
+  WHERE rec.id = 1;
