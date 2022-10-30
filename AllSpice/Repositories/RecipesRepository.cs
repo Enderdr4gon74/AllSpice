@@ -53,14 +53,44 @@ public class RecipesRepository : BaseRepository
     return recipe[0];
   }
 
-  internal Recipe EditRecipe(Recipe recipeData)
+  internal Recipe EditRecipe(Recipe recipeData, int id)
   {
-    string sql = @"
-      UPDATE recipes SET title = @Title WHERE id = @Id;
-      UPDATE recipes SET instructions = @Instructions WHERE id = @Id;
-      UPDATE recipes SET img = @Img WHERE id = @Id;
-      UPDATE recipes SET category = @Category WHERE id = @Id;";
-    Recipe newRecipe = _db.ExecuteScalar<Recipe>(sql, recipeData);
-    return newRecipe;
+    string sql = "UPDATE recipes SET ";
+    if (recipeData.Title != null) {
+      sql += "title = @Title";
+      if (recipeData.Instructions != null) {
+        sql += ", ";
+      }
+    } if (recipeData.Instructions != null) {
+      sql += "instructions = @Instructions";
+      if (recipeData.Img != null) {
+        sql += ", ";
+      }
+    } if (recipeData.Img != null) {
+      sql += "img = @Img";
+      if (recipeData.Category != null) {
+        sql += ", ";
+      }
+    } if (recipeData.Category != null) {
+      sql += "category = @Category";
+    }
+    sql += " WHERE id = @Id;";
+    _db.ExecuteScalar<Recipe>(sql, new {
+      Title = recipeData.Title,
+      Instructions = recipeData.Instructions,
+      Img = recipeData.Img,
+      Category = recipeData.Category,
+      Id = id
+    });
+    return getRecipeById(id);
+  }
+
+  internal void DeleteRecipe(int recipeId)
+  {
+    string sql = "DELETE FROM recipes WHERE id = @Id;";
+    int rowsAffected = _db.Execute(sql, new {Id = recipeId});
+    if (rowsAffected == 0) {
+      throw new Exception("Unable to delete recipe!");
+    }
   }
 }

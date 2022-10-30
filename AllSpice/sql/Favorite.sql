@@ -9,3 +9,13 @@ CREATE TABLE IF NOT EXISTS favorites(
   FOREIGN KEY (accountId) REFERENCES accounts(id),
   FOREIGN KEY (recipeId) REFERENCES recipes(id)
 ) default charset utf8 COMMENT '';
+
+SELECT
+      rec.*,
+      fav.id AS FavoritesId,
+      a.*
+      FROM favorites fav
+      JOIN recipes rec ON rec.id = fav.recipeId
+      JOIN accounts a ON a.id = rec.creatorId
+      WHERE fav.accountId = "633cb69e37340e48a68947c1"
+      GROUP BY fav.id;

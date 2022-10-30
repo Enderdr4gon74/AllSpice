@@ -32,7 +32,17 @@ public class RecipesService
     {
       throw new Exception("Not Your Recipe!");
     }
-    Recipe newRecipe = _repo.EditRecipe(recipeData);
+    Recipe newRecipe = _repo.EditRecipe(recipeData, recipeId);
     return newRecipe;
+  }
+
+  internal void DeleteRecipe(int recipeId, String userId)
+  {
+    Recipe recipe = getRecipeById(recipeId);
+    if ( userId != recipe.CreatorId )
+    {
+      throw new Exception("Not Your Recipe!");
+    }
+    _repo.DeleteRecipe(recipeId);
   }
 }

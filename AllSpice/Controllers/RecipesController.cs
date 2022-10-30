@@ -7,12 +7,14 @@ namespace AllSpice.Controllers
   {
     private readonly Auth0Provider _auth0provider;
     private readonly RecipesService _rs;
+    private readonly IngredientsService _is;
     // TODO add ingredients service?
 
-    public RecipesController(Auth0Provider auth0Provider, RecipesService rs)
+    public RecipesController(Auth0Provider auth0Provider, RecipesService rs, IngredientsService @is)
     {
       _auth0provider = auth0Provider;
       _rs = rs;
+      _is = @is;
     }
 
 
@@ -63,6 +65,20 @@ namespace AllSpice.Controllers
       }
     }
 
+    [HttpGet("{recipeId}/ingredients")]
+    public ActionResult<List<Recipe>> GetIngredientsByRecipeId(int recipeId)
+    {
+      try
+      {
+        List<Ingredient> ingredients = _is.GetIngredientsByRecipeId(recipeId);
+        return Ok(ingredients);
+      }
+      catch (System.Exception ex)
+      {
+        return BadRequest(ex.Message);
+      }
+    }
+
     [HttpPut("{id}")]
     [Authorize]
     public async Task<ActionResult<Recipe>> EditRecipe([FromBody] Recipe recipeData, int id)
@@ -72,6 +88,22 @@ namespace AllSpice.Controllers
         Account userInfo = await _auth0provider.GetUserInfoAsync<Account>(HttpContext);
         Recipe recipe = _rs.EditRecipe(recipeData, id, userInfo.Id);
         return Ok(recipe);
+      }
+      catch (System.Exception ex)
+      {
+        return BadRequest(ex.Message);
+      }
+    }
+
+    [HttpDelete("{id}")]
+    [Authorize]
+    public async Task<ActionResult<Recipe>> DeleteRecipe(int id)
+    {
+      try
+      {
+        Account userInfo = await _auth0provider.GetUserInfoAsync<Account>(HttpContext);
+        _rs.DeleteRecipe(id, userInfo.Id);
+        return Ok("Recipe Has been deleted!");
       }
       catch (System.Exception ex)
       {

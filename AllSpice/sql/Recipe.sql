@@ -26,3 +26,5 @@ SELECT
   FROM recipes rec
   JOIN accounts a ON a.id = rec.creatorId
   WHERE rec.id = 1;
+
+UPDATE recipes SET title = @Title, instructions = @Instructions, img = @Img, category = @Category WHERE id = @Id;
