@@ -1,13 +1,13 @@
 <template>
   <div class="row">
     <div class="col-12 bg-image">
-      <diV class="row h-100 justify-content-center align-items-center">
+      <div class="row h-100 justify-content-center align-items-center">
         <div class="col-4 card bg-spec p-3 rounded-3 text-spec text-center">
           <h1>All spice</h1>
           <p class="m-0 text-uppercase fs-4">Cherish your family</p>
           <p class="m-0 text-uppercase fs-4">and their cooking</p>
         </div>
-      </diV>
+      </div>
     </div>
     <div class="col-12 bg-spec-2">
       <div v-if="recipes" class="row justify-content-around gap-2 p-3">
