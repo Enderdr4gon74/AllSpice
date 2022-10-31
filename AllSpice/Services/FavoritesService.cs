@@ -18,4 +18,18 @@ public class FavoritesService
   {
     return _repo.getFavoritesByAccountId(userId);
   }
+
+  internal Favorite getFavoriteById(int favoriteId)
+  {
+    return _repo.getFavoriteById(favoriteId);
+  }
+
+  internal void DeleteFavorite(int favoriteId, string userId)
+  {
+    Favorite favorite = getFavoriteById(favoriteId);
+    if (favorite.AccountId != userId) {
+      throw new Exception("Not your Favorite!");
+    }
+    _repo.DeleteFavorite(favoriteId);
+  }
 }
