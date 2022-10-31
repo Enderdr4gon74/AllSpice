@@ -1,8 +1,8 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-3">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark-gradient px-3">
     <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
       <div class="d-flex flex-column align-items-center">
-        <img alt="logo" src="../assets/img/cw-logo.png" height="45" />
+        <img alt="logo" src="../assets/img/AllspiceLogo.png" height="65" />
       </div>
     </router-link>
     <button
@@ -16,8 +16,8 @@
     >
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarText">
-      <ul class="navbar-nav me-auto">
+    <div class="collapse navbar-collapse justify-content-between" id="navbarText">
+      <ul class="navbar-nav">
         <li>
           <router-link :to="{ name: 'About' }" class="btn text-success lighten-30 selectable text-uppercase">
             About
@@ -61,4 +61,8 @@ a:hover {
   }
 }
 
+.bg-dark-gradient {
+  background: rgb(15,15,22);
+  background: linear-gradient(180deg, rgb(15, 15, 22) 0%, rgba(15,15,22,0.45) 85%, rgba(15,15,22,0) 100%);
+}
 </style>

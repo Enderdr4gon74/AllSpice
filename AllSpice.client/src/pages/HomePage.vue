@@ -1,44 +1,72 @@
 <template>
-  <div class="home flex-grow-1 d-flex flex-column align-items-center justify-content-center">
-    <div class="home-card p-5 bg-white rounded elevation-3">
-      <img
-        src="https://bcw.blob.core.windows.net/public/img/8600856373152463"
-        alt="CodeWorks Logo"
-        class="rounded-circle"
-      >
-      <h1 class="my-5 bg-dark text-white p-3 rounded text-center">
-        Vue 3 Starter
-      </h1>
+  <div class="row">
+    <div class="col-12 bg-image">
+      <diV class="row h-100 justify-content-center align-items-center">
+        <div class="col-4 card bg-spec p-3 rounded-3 text-spec text-center">
+          <h1>All spice</h1>
+          <p class="m-0 text-uppercase fs-4">Cherish your family</p>
+          <p class="m-0 text-uppercase fs-4">and their cooking</p>
+        </div>
+      </diV>
+    </div>
+    <div class="col-12 bg-spec-2">
+      <div v-if="recipes" class="row justify-content-around gap-2 p-3">
+        <Recipe v-for="r in recipes" :recipe="r" />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import { onMounted } from 'vue';
+import Pop from '../utils/Pop.js';
+import { recipesService } from "../services/RecipesService.js"
+import { computed } from '@vue/reactivity';
+import { AppState } from '../AppState.js';
+import Recipe from "../components/Recipe.vue"
+
 export default {
   setup() {
-    return {}
-  }
+    async function GetRecipes() {
+      try {
+        await recipesService.getRecipes();
+      } catch (error) {
+        Pop.error(error, "[Getting recipes]")
+      }
+    }
+    onMounted(()=>{
+      GetRecipes()
+    })
+    return {
+      recipes: computed(()=> AppState.recipes)
+    }
+  },
+  components: { Recipe }
 }
 </script>
 
 <style scoped lang="scss">
-.home {
-  display: grid;
-  height: 80vh;
-  place-content: center;
-  text-align: center;
-  user-select: none;
+.bg-image {
+  background-image: url("../assets/img/AllSpiceBG.png");
+  min-height: 25rem;
+  background-size: cover;
+}
 
-  .home-card {
-    width: 50vw;
+.bg-spec {
+  background: rgba(15,15,22, 0.75);
+  background: radial-gradient(circle, rgba(15,15,22,0.9) 0%, rgba(15,15,22,0.3) 100%);
+  border: 0.01cm rgba(15,15,22,0.9);
+  color: rgb(228, 228, 224);
+}
 
-    >img {
-      height: 200px;
-      max-width: 200px;
-      width: 100%;
-      object-fit: contain;
-      object-position: center;
-    }
-  }
+.bg-spec-2 {
+  background: rgb(230,230,230);
+  background: url("../assets/img/gradient.png");
+  background-size: contain;
+  background-repeat: repeat-y;
+}
+
+.text-spec {
+  font-family: 'Kaushan Script', cursive;
 }
 </style>

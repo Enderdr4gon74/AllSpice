@@ -1,13 +1,13 @@
 <template>
-  <header>
+  <header class="sticky-top position-absolute top-0 w-100">
     <Navbar />
   </header>
-  <main>
+  <main class="container-fluid">
     <router-view />
   </main>
-   <footer class="bg-dark text-light">
-    Made with 💖 by CodeWorks
-  </footer>
+  <!-- <footer class="bg-dark text-light">
+    Made with <i class="mdi mdi-heart"></i> by DreamTeam: T
+  </footer> -->
 </template>
 
 <script>
