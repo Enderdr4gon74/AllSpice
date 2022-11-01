@@ -1,20 +1,25 @@
 <template>
-  <div class="about text-center">
+  <NavFiller />
+  <AccountForm />
+  <!-- <div class="about text-center">
     <h1>Welcome {{ account.name }}</h1>
     <img class="rounded" :src="account.picture" alt="" />
     <p>{{ account.email }}</p>
-  </div>
+  </div> -->
 </template>
 
 <script>
 import { computed } from 'vue'
 import { AppState } from '../AppState'
+import NavFiller from '../components/NavFiller.vue';
+import AccountForm from '../components/AccountForm.vue';
 export default {
-  setup() {
-    return {
-      account: computed(() => AppState.account)
-    }
-  }
+    setup() {
+        return {
+            account: computed(() => AppState.account)
+        };
+    },
+    components: { NavFiller, AccountForm }
 }
 </script>
 

@@ -11,10 +11,26 @@
     </div>
     <div class="col-12 bg-spec-2">
       <div class="row justify-content-center">
-        <div class="col-8 p-2">
-          <div class="row">
-            <div class="col-2 bg-info rounded-pill p-2">
-              
+        <div class="col-8 p-2 d-flex">
+          <button @click="unFilterRecipes()" class="btn btn-outline-danger w-1-5">Reset <i class="mdi mdi-restore"></i></button>
+          <form class="d-flex w-4-5" @submit.prevent="filterRecipes()">
+            <div class="form-floating w-75">
+              <input type="text" class="form-control" id="category" placeholder="Category" v-model="editable.category">
+              <label for="category">Category</label>
+            </div>
+            <button class="btn btn-outline-success w-25" type="submit">Search <i class="mdi mdi-magnify"></i></button>
+          </form>
+        </div>
+        <div v-if="account.id || user.id" class="col-10">
+          <div class="row justify-content-between">
+            <div @click="showAll()" class="col-3 bg-secondary p-2 rounded-pill d-flex justify-content-center align-items-center selectable">
+              <h3 class="m-0">All</h3>
+            </div>
+            <div @click="showYourFavorites()" class="col-3 bg-secondary p-2 rounded-pill d-flex justify-content-center align-items-center selectable">
+              <h3 class="m-0">Favorites</h3>
+            </div>
+            <div @click="showYourOwn()" class="col-3 bg-secondary p-2 rounded-pill d-flex justify-content-center align-items-center selectable">
+              <h3 class="m-0">Your Own</h3>
             </div>
           </div>
         </div>
@@ -36,9 +52,11 @@ import { favoritesService } from "../services/FavoritesService.js"
 import { computed } from '@vue/reactivity';
 import { AppState } from '../AppState.js';
 import Recipe from "../components/Recipe.vue"
+import { ref } from 'vue'
 
 export default {
   setup() {
+    const editable = ref({})
     async function GetRecipes() {
       try {
         await recipesService.getRecipes();
@@ -50,7 +68,45 @@ export default {
       GetRecipes()
     })
     return {
-      recipes: computed(() => AppState.recipes)
+      editable,
+      recipes: computed(() => AppState.recipes),
+      account: computed(() => AppState.account),
+      user: computed(() => AppState.user),
+      filterRecipes() {
+        try {
+          recipesService.filterRecipes(editable.value)
+        } catch (error) {
+          Pop.error(error, "[Filtering Recipes]")
+        }
+      },
+      unFilterRecipes() {
+        try {
+          recipesService.unFilterRecipes()
+        } catch (error) {
+          Pop.error(error, "[Un-Filtering Recipes]")
+        }
+      },
+      showAll() {
+        try {
+          recipesService.showAll()
+        } catch (error) {
+          Pop.error(error, "[Showing All]")
+        }
+      },
+      showYourFavorites() {
+        try {
+          recipesService.showYourFavorites()
+        } catch (error) {
+          Pop.error(error, "[Showing Your Favorites]")
+        }
+      },
+      showYourOwn() {
+        try {
+          recipesService.showYourOwn()
+        } catch (error) {
+          Pop.error(error, "[Showing Your Own]")
+        }
+      },
     }
   },
   components: { Recipe }
@@ -79,6 +135,22 @@ export default {
 }
 
 .text-spec {
+  font-family: 'Kaushan Script', cursive;
+}
+
+.spec-col {
+  width: 14.28571429%;
+}
+
+.w-1-5 {
+  width: 20%;
+}
+
+.w-4-5 {
+  width: 80%;
+}
+
+h3 {
   font-family: 'Kaushan Script', cursive;
 }
 </style>

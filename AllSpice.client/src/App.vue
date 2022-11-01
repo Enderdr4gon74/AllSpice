@@ -2,7 +2,7 @@
   <header class="sticky-top position-absolute top-0 w-100">
     <Navbar />
   </header>
-  <main class="container-fluid">
+  <main class="container-fluid px-0">
     <router-view />
   </main>
   <div class="modal modal-xl fade" id="recipeModal" tabindex="-1" aria-labelledby="recipeModalLabel" aria-hidden="true">

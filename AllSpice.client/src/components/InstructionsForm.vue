@@ -2,7 +2,7 @@
   <form @submit.prevent="handleSubmit()">
 
     <div class="form-floating">
-      <textarea class="form-control" placeholder="Instructions" id="Instructions" v-model="editable.instructions"></textarea>
+      <textarea class="form-control" placeholder="Instructions" id="Instructions" required v-model="editable.instructions"></textarea>
       <label for="Instructions">Instructions</label>
     </div>
     <button type="submit" data-bs-target="#recipeModal" data-bs-toggle="modal" class="btn btn-success"> Add Ingredient </button>
