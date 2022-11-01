@@ -22,8 +22,8 @@
             <div class="p-2">
               {{recipe.instructions}}
             </div>
-            <div>
-
+            <div v-if="recipe.creatorId == user.id || recipe.creatorId == account.id" class="p-1" >
+              <button data-bs-target="#instructionsModal" data-bs-toggle="modal" class="btn btn-success w-100"> Edit Instructions </button>
             </div>
           </div>
           <div class="col-5 bg-secondary rounded-3 p-0">
@@ -36,8 +36,18 @@
               </ul>
               <!-- <p>TODO add ingredients here</p> -->
             </div>
-            <div>
-              
+            <div v-if="recipe.creatorId == user.id || recipe.creatorId == account.id" class="p-1" >
+              <form @submit.prevent="AddIngredient()">
+                <div class="form-floating mb-1">
+                  <input type="text" class="form-control" placeholder="Amount" v-model="newIngredient.quantity" id="amount">
+                  <label for="amount">Ingredient Amount</label>
+                </div>
+                <div class="form-floating mb-1">
+                  <input type="text" class="form-control" placeholder="Type" v-model="newIngredient.name" id="type">
+                  <label for="type">Ingredient Type</label>
+                </div>
+                <button type="submit" class="btn btn-success"> Add Ingredient </button>
+              </form>
             </div>
           </div>
         </div>
@@ -52,18 +62,32 @@
 import { computed } from '@vue/reactivity';
 import { AppState } from '../AppState.js';
 import { Recipe } from '../models/Recipe.js';
+import { ingredientsService } from '../services/IngredientsService.js';
 import Ingredient from './Ingredient.vue';
+import { ref } from 'vue'
+import Pop from '../utils/Pop.js';
 
 export default {
-    props: {
-        recipe: { type: Recipe, required: true },
-    },
-    setup() {
-        return {
-            ingredients: computed(() => AppState.ingredients)
-        };
-    },
-    components: { Ingredient }
+  props: {
+    recipe: { type: Recipe, required: true },
+  },
+  setup() {
+    const newIngredient = ref({name: "", quantity: "", recipeId: 0})
+    return {
+      ingredients: computed(() => AppState.ingredients),
+      user: computed(()=> AppState.user),
+      account: computed(()=> AppState.account),
+      newIngredient,
+      async AddIngredient() {
+        try {
+          await ingredientsService.addIngredient(newIngredient);
+        } catch (error) {
+          Pop.error(error, "[Handling Submit]")
+        }
+      }
+    };
+  },
+  components: { Ingredient }
 }
 </script>
 

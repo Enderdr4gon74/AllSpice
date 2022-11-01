@@ -7,6 +7,7 @@ class RecipesService {
   async getRecipes() {
     const recipes = await api.get('/api/recipes');
     AppState.recipes = recipes.data.map(r => new Recipe(r))
+    AppState.shownRecipes = recipes.data.map(r => new Recipe(r))
   }
 
   async setActiveRecipe(recipeId) {
