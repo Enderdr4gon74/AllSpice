@@ -33,6 +33,13 @@ public class FavoritesRepository : BaseRepository
     Favorite favorite = favorites[0];
     return favorite;
   }
+  internal List<Favorite> getFavoritesByRecipeId(int recipeId)
+  {
+    string sql = "SELECT * FROM favorites WHERE recipeId = @recipeId;";
+
+    List<Favorite> favorites = _db.Query<Favorite>(sql, new {recipeId}).AsList();
+    return favorites;
+  }
 
   internal void DeleteFavorite(int favoriteId)
   {

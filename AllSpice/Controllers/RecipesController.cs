@@ -8,13 +8,14 @@ namespace AllSpice.Controllers
     private readonly Auth0Provider _auth0provider;
     private readonly RecipesService _rs;
     private readonly IngredientsService _is;
-    // TODO add ingredients service?
+    private readonly FavoritesService _fs;
 
-    public RecipesController(Auth0Provider auth0Provider, RecipesService rs, IngredientsService @is)
+    public RecipesController(Auth0Provider auth0Provider, RecipesService rs, IngredientsService @is, FavoritesService fs)
     {
       _auth0provider = auth0Provider;
       _rs = rs;
       _is = @is;
+      _fs = fs;
     }
 
 
@@ -103,6 +104,10 @@ namespace AllSpice.Controllers
       {
         Account userInfo = await _auth0provider.GetUserInfoAsync<Account>(HttpContext);
         _rs.DeleteRecipe(id, userInfo.Id);
+        List<Favorite> favorites = _fs.getFavoritesByRecipeId(id);
+        favorites.ForEach(f => _fs.DeleteFavoriteWhenRecipeDelete(f.Id));
+        List<Ingredient> ingredients = _is.GetIngredientsByRecipeId(id);
+        ingredients.ForEach(i => _is.DeleteIngredientWhenRecipeDelete(i.Id));
         return Ok("Recipe Has been deleted!");
       }
       catch (System.Exception ex)

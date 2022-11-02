@@ -6,10 +6,19 @@
     <div class="col-8">
       <div class="row justify-content-center">
         <!-- Title & Category -->
-        <div class="col-12 d-flex gap-2 align-items-center">
-          <h1 class="spec-text">{{recipe.title}}</h1>
-          <div class="rounded-pill bg-secondary py-spec px-spec">
-            <p class="mt-1 mb-0 fw-bold spec-text">{{recipe.category}}</p>
+        <div class="col-12">
+          <div class="row justify-content-between align-items-center">
+            <div class="col-7 d-flex gap-3 align-items-center">
+              <h1 class="spec-text">{{recipe.title}}</h1>
+              <div class="rounded-pill bg-secondary py-spec px-spec">
+                <p class="mt-1 mb-0 fw-bold spec-text">{{recipe.category}}</p>
+              </div>  
+            </div>
+            <div class="col-4 d-flex justify-content-end align-items-center gap-3">
+              <div v-if="recipe.creatorId == user.id || recipe.creatorId == account.id">
+                <button @click="deleteRecipe(recipe.id)" data-bs-dismiss="modal" class="btn btn-outline-danger spec-button"><i class="mdi mdi-delete-forever"></i></button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -66,6 +75,7 @@ import { ingredientsService } from '../services/IngredientsService.js';
 import Ingredient from './Ingredient.vue';
 import { ref } from 'vue'
 import Pop from '../utils/Pop.js';
+import { recipesService } from '../services/RecipesService.js';
 
 export default {
   props: {
@@ -81,6 +91,14 @@ export default {
       async AddIngredient() {
         try {
           await ingredientsService.addIngredient(newIngredient);
+        } catch (error) {
+          Pop.error(error, "[Handling Submit]")
+        }
+      },
+      async deleteRecipe(recipeId) {
+        try {
+          await recipesService.deleteRecipe(recipeId)
+          Pop.success("Recipe Deleted");
         } catch (error) {
           Pop.error(error, "[Handling Submit]")
         }
@@ -114,5 +132,9 @@ export default {
 
 .letters {
   letter-spacing: 2px;
+}
+
+.spec-button {
+  border-width: 0;
 }
 </style>

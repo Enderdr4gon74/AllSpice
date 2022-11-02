@@ -24,12 +24,22 @@ public class FavoritesService
     return _repo.getFavoriteById(favoriteId);
   }
 
+  internal List<Favorite> getFavoritesByRecipeId(int recipeId)
+  {
+    return _repo.getFavoritesByRecipeId(recipeId);
+  }
+
   internal void DeleteFavorite(int favoriteId, string userId)
   {
     Favorite favorite = getFavoriteById(favoriteId);
     if (favorite.AccountId != userId) {
       throw new Exception("Not your Favorite!");
     }
+    _repo.DeleteFavorite(favoriteId);
+  }
+
+  internal void DeleteFavoriteWhenRecipeDelete(int favoriteId)
+  {
     _repo.DeleteFavorite(favoriteId);
   }
 }

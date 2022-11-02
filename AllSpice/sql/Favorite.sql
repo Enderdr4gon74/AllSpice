@@ -21,3 +21,5 @@ SELECT
       GROUP BY fav.id;
 
 SELECT * FROM favorites fav WHERE fav.accountId = "633cb69e37340e48a68947c1";
+
+DROP TABLE favorites;

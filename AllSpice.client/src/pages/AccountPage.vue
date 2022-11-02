@@ -1,11 +1,12 @@
 <template>
-  <NavFiller />
-  <AccountForm />
-  <!-- <div class="about text-center">
-    <h1>Welcome {{ account.name }}</h1>
-    <img class="rounded" :src="account.picture" alt="" />
-    <p>{{ account.email }}</p>
-  </div> -->
+  <div class="row">
+    <div class="col-12 px-0">
+      <NavFiller />
+      <AccountInfo :account="new Account(account)" />
+      <AccountForm />
+    </div>
+  </div>
+  
 </template>
 
 <script>
@@ -13,18 +14,19 @@ import { computed } from 'vue'
 import { AppState } from '../AppState'
 import NavFiller from '../components/NavFiller.vue';
 import AccountForm from '../components/AccountForm.vue';
+import AccountInfo from '../components/AccountInfo.vue';
+import { Account } from '../models/Account.js';
 export default {
-    setup() {
-        return {
-            account: computed(() => AppState.account)
-        };
-    },
-    components: { NavFiller, AccountForm }
+  setup() {
+    return {
+      Account: Account,
+      account: computed(() => AppState.account)
+    };
+  },
+  components: { NavFiller, AccountForm, AccountInfo }
 }
 </script>
 
 <style scoped>
-img {
-  max-width: 100px;
-}
+
 </style>

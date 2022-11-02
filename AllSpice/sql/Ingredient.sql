@@ -25,3 +25,5 @@ SELECT
   WHERE i.recipeId = 35;
 
 SELECT * FROM ingredients WHERE id = 1;
+
+DROP TABLE ingredients

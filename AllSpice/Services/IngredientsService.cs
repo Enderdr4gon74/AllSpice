@@ -24,12 +24,17 @@ public class IngredientsService
     return _repo.GetIngredientsById(ingredientId);
   }
 
-  internal void DeleteIngredient(int recipeId, string userId)
+  internal void DeleteIngredient(int ingredientId, string userId)
   {
-    Ingredient ingredient = GetIngredientById(recipeId);
+    Ingredient ingredient = GetIngredientById(ingredientId);
     if (ingredient.CreatorId != userId) {
       throw new Exception("Not your Ingredient");
     }
-    _repo.DeleteIngredient(recipeId);
+    _repo.DeleteIngredient(ingredientId);
+  }
+
+  internal void DeleteIngredientWhenRecipeDelete(int ingredientId)
+  {
+    _repo.DeleteIngredient(ingredientId);
   }
 }

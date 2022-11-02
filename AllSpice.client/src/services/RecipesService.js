@@ -22,11 +22,14 @@ class RecipesService {
   filterRecipes(wordData) {
     // console.log(wordData.category)
     AppState.recipes = AppState.hiddenRecipes.filter(f => f.category.toLowerCase() == wordData.category.toLowerCase())
+    AppState.currentFilter = 1;
+    AppState.filterName = wordData.category
   }
 
   unFilterRecipes() {
     // console.log("unfiltered recipes?")
     AppState.recipes = AppState.hiddenRecipes.filter(f => f);
+    AppState.currentFilter = 0;
   }
 
   showAll() {
@@ -41,11 +44,40 @@ class RecipesService {
     // recipes = recipes.map(r => new Recipe(r.target))
     console.log(recipes)
     AppState.recipes = recipes
+    AppState.currentFilter = 2
   }
 
   showYourOwn() {
     console.log("showing your own")
     AppState.recipes = AppState.hiddenRecipes.filter(r => r.creatorId == AppState.user.id)
+    AppState.currentFilter = 3
+  }
+
+  async deleteRecipe(recipeId) {
+    const message = await api.delete(`/api/recipes/${recipeId}`)
+    const recipeIndex = AppState.hiddenRecipes.findIndex(r => r.id == recipeId)
+    AppState.hiddenRecipes.splice(recipeIndex, 1)
+    this.refilter()
+  }
+
+  async createRecipe(recipeData) {
+    console.log(recipeData)
+    const newRecipe = await api.post("/api/recipes", recipeData);
+    AppState.hiddenRecipes.push(new Recipe(newRecipe.data))
+    this.refilter()
+    // con
+  }
+
+  refilter() {
+    if (AppState.currentFilter == 0) {
+      this.unFilterRecipes()
+    } else if (AppState.currentFilter == 1) {
+      this.filterRecipes(AppState.currentFilter)
+    } else if (AppState.currentFilter == 2) {
+      this.showYourFavorites()
+    } else if (AppState.currentFilter == 3) {
+      this.showYourOwn()
+    }
   }
 }
 
