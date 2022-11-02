@@ -23,7 +23,7 @@
       <label for="Instructions">Instructions</label>
     </div>
     <div class="w-100 d-flex justify-content-end">
-      <button type="submit" class="btn btn-success w-50"> Add Ingredient </button>
+      <button type="submit" class="btn btn-success w-50"> Create Recipe </button>
     </div>
   </form>
 </template>
