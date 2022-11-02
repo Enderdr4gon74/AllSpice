@@ -3,7 +3,6 @@
     <div class="col-12 px-0">
       <NavFiller />
       <AccountInfo :account="new Account(account)" />
-      <AccountForm />
     </div>
   </div>
   
@@ -13,7 +12,6 @@
 import { computed } from 'vue'
 import { AppState } from '../AppState'
 import NavFiller from '../components/NavFiller.vue';
-import AccountForm from '../components/AccountForm.vue';
 import AccountInfo from '../components/AccountInfo.vue';
 import { Account } from '../models/Account.js';
 export default {
@@ -23,7 +21,7 @@ export default {
       account: computed(() => AppState.account)
     };
   },
-  components: { NavFiller, AccountForm, AccountInfo }
+  components: { NavFiller, AccountInfo }
 }
 </script>
 

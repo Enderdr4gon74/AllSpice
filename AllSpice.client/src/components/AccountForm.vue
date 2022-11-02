@@ -1,27 +1,31 @@
 <template>
-  <form @submit.prevent="handleSubmit()">
-
-
-  </form>
+  <div class="card bg-secondary p-3 rounded-3">
+    <form @submit.prevent="handleSubmit()">
+      <div class="form-floating mb-3">
+        <input type="text" class="form-control" id="Name" placeholder="name@example.com" v-model="editable.name">
+        <label for="Name">Name</label>
+      </div>
+      <div class="w-100 d-flex justify-content-end">
+        <button type="submit" class="btn btn-success w-25"> Edit Account </button>
+      </div>
+    </form>
+  </div>
 </template>
 
 
 <script>
-import { ref, watchEffect } from 'vue'
-import { AppState } from '../AppState.js'
+import { ref } from 'vue'
+import { accountService } from '../services/AccountService.js'
 import Pop from '../utils/Pop.js'
 
 export default {
   setup(){
     const editable = ref({})
-    watchEffect(() => {
-      editable.value = { ...AppState.___ }
-    })
     return {
       editable,
       async handleSubmit() {
         try {
-
+          accountService.editAccount(editable.value)
         } catch (error) {
           Pop.error(error, "[Handling Submit]")
         }

@@ -13,6 +13,10 @@ class AccountService {
       logger.error('HAVE YOU STARTED YOUR SERVER YET???', err)
     }
   }
+
+  async editAccount(accountData) {
+    console.log(accountData.name)
+  }
 }
 
 export const accountService = new AccountService()

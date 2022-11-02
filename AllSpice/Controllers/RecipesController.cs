@@ -103,11 +103,11 @@ namespace AllSpice.Controllers
       try
       {
         Account userInfo = await _auth0provider.GetUserInfoAsync<Account>(HttpContext);
-        _rs.DeleteRecipe(id, userInfo.Id);
         List<Favorite> favorites = _fs.getFavoritesByRecipeId(id);
         favorites.ForEach(f => _fs.DeleteFavoriteWhenRecipeDelete(f.Id));
         List<Ingredient> ingredients = _is.GetIngredientsByRecipeId(id);
         ingredients.ForEach(i => _is.DeleteIngredientWhenRecipeDelete(i.Id));
+        _rs.DeleteRecipe(id, userInfo.Id);
         return Ok("Recipe Has been deleted!");
       }
       catch (System.Exception ex)

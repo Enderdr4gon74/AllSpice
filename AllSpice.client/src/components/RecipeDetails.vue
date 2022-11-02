@@ -41,7 +41,7 @@
             </div>
             <div class="p-2">
               <ul v-if="ingredients" class="my-1 ps-2">
-                <Ingredient v-for="i in ingredients" :ingredient="i" />
+                <Ingredient v-for="i in ingredients" :ingredient="i" :recipe="recipe" />
               </ul>
               <!-- <p>TODO add ingredients here</p> -->
             </div>

@@ -22,6 +22,13 @@ class IngredientsService {
     // console.log(newestestIngredient)
     AppState.ingredients.push(newestestIngredient)
   }
+
+  async deleteIngredient(ingredientId) {
+    // console.log(ingredientId)
+    await api.delete(`/api/ingredients/${ingredientId}`)
+    const ingredientIndex = AppState.ingredients.findIndex(i => i.id == ingredientId)
+    AppState.ingredients.splice(ingredientIndex, 1);
+  }
 }
 
 export const ingredientsService = new IngredientsService();
