@@ -1,11 +1,11 @@
 <template>
   <form @submit.prevent="handleSubmit()">
 
-    <div class="form-floating">
+    <div class="form-floating mb-3">
       <textarea class="form-control" placeholder="Instructions" id="Instructions" required v-model="editable.instructions"></textarea>
       <label for="Instructions">Instructions</label>
     </div>
-    <button type="submit" data-bs-target="#recipeModal" data-bs-toggle="modal" class="btn btn-success"> Add Ingredient </button>
+    <button type="submit" data-bs-target="#recipeModal" data-bs-toggle="modal" class="btn btn-success"> Edit Instructions </button>
     <!-- <h1>test</h1> -->
   </form>
 </template>
