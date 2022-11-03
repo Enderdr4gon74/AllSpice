@@ -10,10 +10,10 @@
         <img :src="account.picture" :alt="account.name" class="img-fluid w-100 rounded-4">
       </div>
       <div class="col-8">
-        <div class="row">
+        <div class="row pb-3 h-100 flex-column justify-content-between">
           <div class="col-12">
             <h1><span class="text-success">Name:</span> {{account.name}}</h1>
-            <h4 class="mb-3"><span class="text-success">Email:</span> {{account.email}}</h4>
+            <h3 class="mb-3"><span class="text-success">Email:</span> {{account.email}}</h3>
           </div>
           <div class="col-12">
             <AccountForm />
